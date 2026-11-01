@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Work Order - Rosalina Collection</title>
+    <!-- Menggunakan Tailwind CSS untuk tampilan antarmuka yang modern -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 font-sans flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-lg">
+        <!-- Header / Identitas Brand -->
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold text-slate-800">Rosalina Collection</h1>
+            <p class="text-sm text-slate-500">Form Input Work Order & Validasi End-to-End</p>
+        </div>
+
+        <!-- Form Input dengan Validasi JavaScript -->
+        <form id="woForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+            
+            <!-- Input 1: ID Work Order (Validasi Format/Regex ala Latihan 4) -->
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1" for="idWO">ID Work Order (Format: WO-XXX)</label>
+                <input class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none" 
+                       type="text" id="idWO" name="idWO" placeholder="Contoh: WO-001">
+            </div>
+
+            <!-- Input 2: Jumlah Produksi (Validasi Angka & Range ala Latihan 2 & 3) -->
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1" for="jumlah">Jumlah Produksi (Minimal 10 Pcs)</label>
+                <input class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none" 
+                       type="number" id="jumlah" name="jumlah" placeholder="Masukkan jumlah produksi">
+            </div>
+
+            <!-- Input 3: Catatan Produksi (Validasi Kosong / Existence Check ala Latihan 1) -->
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1" for="catatan">Catatan Produksi</label>
+                <textarea class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none" 
+                          id="catatan" name="catatan" placeholder="Masukkan catatan tambahan..." rows="3"></textarea>
+            </div>
+
+            <!-- Tombol Submit -->
+            <button type="submit" id="submitBtn" class="w-full bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-blue-700 transition duration-200 shadow-md">
+                Simpan & Kirim Work Order
+            </button>
+        </form>
+
+        <!-- Loading State Indicator -->
+        <div id="loadingState" class="hidden text-center mt-4 text-blue-600 font-medium text-sm">
+            ⏳ Sedang memproses dan mengirim data ke server...
+        </div>
+    </div>
+
+    <!-- Script JavaScript untuk Validasi & Pop-up Alert -->
+    <script>
+        function handleFormSubmit(event) {
+            // Mencegah form melakukan refresh halaman bawaan HTML
+            event.preventDefault();
+
+            const idWO = document.getElementById('idWO').value.trim();
+            const jumlah = document.getElementById('jumlah').value.trim();
+            const catatan = document.getElementById('catatan').value.trim();
+
+            // 1. Validasi Existence Check (Field kosong, ala Latihan 1)
+            if (idWO === "") {
+                alert("ID Work Order tidak boleh kosong!");
+                document.getElementById('idWO').focus();
+                return false;
+            }
+
+            // 2. Validasi Format / Regex Check (ala Latihan 4)
+            const woFormat = /^WO-\d{3}$/;
+            if (!idWO.match(woFormat)) {
+                alert("Format salah! Gunakan format WO-XXX (Contoh: WO-001)");
+                document.getElementById('idWO').focus();
+                return false;
+            }
+
+            // 3. Validasi Range / Numeric Check (ala Latihan 2 & 3)
+            if (isNaN(jumlah) || jumlah < 10) {
+                alert("Jumlah produksi harus berupa angka dan minimal 10 Pcs!");
+                document.getElementById('jumlah').focus();
+                return false;
+            }
+
+            // Jika semua validasi lolos, jalankan simulasi request ke backend
+            sendDataToBackend({ idWO, jumlah, catatan });
+        }
+
+        // Simulasi Workflow Request ke Backend / API dengan HTTP Method POST
+        function sendDataToBackend(data) {
+            const loadingState = document.getElementById('loadingState');
+            const submitBtn = document.getElementById('submitBtn');
+
+            // Tampilkan status loading
+            loadingState.classList.remove('hidden');
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            // Simulasi delay jaringan (HTTP POST)
+            setTimeout(() => {
+                loadingState.classList.add('hidden');
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                // Munculkan pop-up sukses
+                alert("Berhasil! Work Order telah disimpan ke database backend.");
+                
+                // Reset form setelah berhasil
+                document.getElementById('woForm').reset();
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
