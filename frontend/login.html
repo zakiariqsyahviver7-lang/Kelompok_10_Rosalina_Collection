@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistem Manajemen Produksi Rosalina Collection</title>
+    <!-- Menggunakan Tailwind CSS untuk tampilan antarmuka yang modern dan responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 flex items-center justify-center h-screen">
+
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+        <!-- Header / Identitas Brand -->
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold text-slate-800">Rosalina Collection</h1>
+            <p class="text-sm text-slate-500 mt-1">Sistem Informasi Manajemen Produksi Pakaian</p>
+        </div>
+        
+        <!-- Form Login sesuai Spesifikasi SDD (UC1) -->
+        <form action="#" method="POST">
+            <div class="mb-4">
+                <label class="block text-slate-700 text-sm font-semibold mb-2" for="username">Username / Email</label>
+                <input class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" 
+                       type="text" id="username" placeholder="Masukkan username atau email anda" required>
+            </div>
+            
+            <div class="mb-6">
+                <label class="block text-slate-700 text-sm font-semibold mb-2" for="password">Password</label>
+                <input class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" 
+                       type="password" id="password" placeholder="••••••••" required>
+            </div>
+            
+            <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-blue-700 transition duration-200 shadow-md">
+                Masuk ke Sistem
+            </button>
+        </form>
+
+        <div class="text-center mt-6">
+            <p class="text-xs text-slate-400">&copy; 2026 Rosalina Collection. Hak Cipta Dilindungi.</p>
+        </div>
+    </div>
+
+</body>
+</html>
